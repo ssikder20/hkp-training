@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Import databases
 const User = require("../model/User");
@@ -29,7 +30,13 @@ router.post("/users/create", async (req, res, next) => {
 
   try {
     const savedUser = await user.save();
-    res.send(savedUser._id);
+
+    // Create and assign JWT token
+    const payload = { _id: user._id, username: user.username };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
+    res.header("auth-token", token).send(token);
   } catch (err) {
     res.status(400).send(err);
   }
