@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// First Screen - Login Page
+// Redirect to login page
 router.get("/", (req, res, next) => {
   res.redirect("/login");
 });

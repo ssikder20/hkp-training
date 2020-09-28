@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Import databases
 const User = require("../model/User");
@@ -24,11 +25,12 @@ router.post("/users/login", async (req, res, next) => {
   );
   if (!passwordValid) return res.status(400).send("Password is wrong.");
 
-  try {
-    res.send("Logged in.");
-  } catch (err) {
-    res.status(400).send(err);
-  }
+  // Create and assign JWT token
+  const payload = { _id: userValid._id, username: userValid.username };
+  const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+    expiresIn: "10s",
+  });
+  res.header("auth-token", token).send(token);
 });
 
 module.exports = router;
