@@ -1,7 +1,6 @@
 // Import libraries and functions
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const verify = require("./verifyToken"); // Import token verification middleware
 const Item = require("../model/Item"); // Import item database
 
@@ -12,7 +11,7 @@ router.get("/additem", (req, res, next) => {
 }); */
 
 // Create an item in database with user token, and name/quantity supplied by user
-router.post("/items/create", verify, async (req, res, next) => {
+router.post("/items/create", verify.verifyBody, async (req, res, next) => {
   // Create new item
   const item = new Item({
     username: req.user.username,

@@ -10,21 +10,24 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // Connect to database
-mongoose.connect(process.env.DATABASE_CONNECT, { useNewUrlParser: true }, () =>
-  console.log("Connected to database.")
+mongoose.connect(
+  process.env.DATABASE_CONNECT,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => console.log("Connected to database.")
 );
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
 const addItemRouter = require("./routes/addItem");
+const cartRouter = require("./routes/cart");
 
 const app = express();
 
 // Commented out due to only focusing on back-end therefore, there is no need for front-end pugs
 // view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -37,6 +40,7 @@ app.use("/", indexRouter);
 app.use("/", loginRouter);
 app.use("/", registerRouter);
 app.use("/", addItemRouter);
+app.use("/", cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

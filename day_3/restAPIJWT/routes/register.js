@@ -15,6 +15,14 @@ router.get("/register", (req, res, next) => {
 
 // Create and save user in database from login form
 router.post("/users/create", async (req, res, next) => {
+  // Checks for empty username field
+  if (req.body.username == null)
+    return res.status(400).send({ message: "Username cannot be empty." });
+
+  // Checks for empty password field
+  if (req.body.password == null)
+    return res.status(400).send({ message: "Password cannot be empty." });
+
   // Check if username is already in database
   const usernameExist = await User.findOne({ username: req.body.username });
   if (usernameExist)
