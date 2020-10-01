@@ -1,0 +1,23 @@
+extend layout
+
+mixin tableRow(item)
+  tr
+    td #{item.name}
+    td #{item.quantity}
+    td
+      form(action="/items/remove" method="DELETE")
+        button(type="submit") Delete
+
+block content
+  h1 Cart
+  br
+  table.ui.celled.table.center.aligned
+    thead
+      tr
+        th Item
+        th Quantity
+        th 
+    tbody
+      for each item in items
+        +tableRow(item)
+            

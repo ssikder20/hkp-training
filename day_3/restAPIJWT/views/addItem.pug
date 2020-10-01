@@ -1,0 +1,9 @@
+extend layout
+
+block content
+  h1 Add Items
+  form(action="/items/create", method="POST")
+    input(name="name", type=text, placeholder="Item name")
+    input(name="quantity", type=number, min=1, placeholder="Item Quantity")
+    button(type="Submit") Submit
+  
