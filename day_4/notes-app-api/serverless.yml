@@ -38,6 +38,7 @@ iamRoleStatements:
     Resource: "arn:aws:dynamodb:us-east-2:731279721400:table/notes"
 
 functions:
+
   # Defines HTTP API endpoint that calls main function in create.js
   # - path: url route is /notes
   # - method: POST request
@@ -49,5 +50,17 @@ functions:
       - http:
           path: notes
           method: post
+          cors: true
+          authorizer: aws_iam
+
+  # Defines an HTTP API endpount that calls main function in get.js
+  # - path: url route is /notes/{id}
+  # - method: GET request
+  get:
+    handler: get.main
+    events:
+      - http:
+          path: notes/{id}
+          method: get
           cors: true
           authorizer: aws_iam
